@@ -1,4 +1,4 @@
-from query import verificar_credenciais, obter_usuario, cadastrar_usuario, obter_unidades, obter_unidade_usuario
+from query import verificar_credenciais, obter_usuario, cadastrar_medico, cadastrar_unidade, obter_unidades, obter_tipo_unidades, obter_unidade_usuario
 
 def entrar_na_conta():
     usuario_logado = None
@@ -12,15 +12,13 @@ def entrar_na_conta():
         else:
             usuario_logado = None
 
-def fazer_cadastro():
-    print("Para fazer o cadastro digite:")
+def fazer_cadastro_medico():
     nome = input("Nome: ")
     especialidade = input("Especialidade: ")
     n_crm = input("Nº CRM: ")
     telefone = input("Telefone: ")
-    email = input("E-mail: ")
-    senha = input("Senha: ")
 
+    # Retornando listas das unidades pelo banco, para o usuário escolher
     print("\nUnidades cadastradas em nosso sistema:")
     lista_unidades = obter_unidades()
     for unidade in lista_unidades:
@@ -32,10 +30,38 @@ def fazer_cadastro():
     while not unidade in lista_id:
         unidade = int(input("Digite um valor válido por favor! "))
 
-    cadastrar_usuario(nome, especialidade, n_crm, telefone, email, senha, unidade)
+    email = input("E-mail: ")
+    senha = input("Senha: ")
+
+    cadastrar_medico(nome, especialidade, n_crm, telefone, email, senha, unidade)
 
     print(f"{nome}, seu cadastro foi concluído com sucesso!\nVocê será redirecionado para a página inicial.\n.\n.\n.\n")
 
+def fazer_cadastro_unidade():
+    nome = input("Nome da unidade: ")
+    telefone = input("Telefone: ")
+    cep = input("CEP: ")
+    logradouro = input("Logradouro: ")
+    estado = input("Estado: ")
+    cidade = input("Cidade: ")
+    num_cnes = input("Nº CNES: ")
+    email = input("E-mail: ")
+    senha = input("Senha: ")
+
+    print("\nTipos de unidades cadastradas em nosso sistema:")
+    lista_tipo_unidades = obter_tipo_unidades()
+    for tipo in lista_tipo_unidades:
+        print(f"{tipo[0]} - {tipo[1]}")
+    
+    tipo = int(input("\nSelecione o tipo da sua unidade: "))
+
+    lista_id = [tipo[0] for tipo in lista_tipo_unidades]
+    while not tipo in lista_id:
+        tipo = int(input("Digite um valor válido por favor! "))
+
+    cadastrar_unidade(nome, telefone, email, senha, cep, logradouro, estado, cidade, num_cnes, tipo)
+
+    print(f"{nome}, seu cadastro foi concluído com sucesso!\nVocê será redirecionado para a página inicial.\n.\n.\n.\n")
 
 def exibir_informacoes_usuario(user):
     usuario = obter_usuario(user)

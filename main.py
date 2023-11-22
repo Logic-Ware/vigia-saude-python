@@ -1,4 +1,4 @@
-from user import entrar_na_conta, exibir_informacoes_usuario, fazer_cadastro
+from user import entrar_na_conta, exibir_informacoes_usuario, fazer_cadastro_medico, fazer_cadastro_unidade
 
 def forcar_opcao(msg, lista_opcoes):
     resposta = input(msg)
@@ -24,7 +24,20 @@ def main():
         if escolhaLogin == 1:
             user = entrar_na_conta()
         elif escolhaLogin == 2:
-            user = fazer_cadastro()
+            escolhaCadastro = int(
+                forcar_opcao(
+                    "\nCadastrar como médico ou como unidade:"
+                    "\n1 - Médico"
+                    "\n2 - Unidade",
+                    ["1","2"]
+                )
+            )
+
+            print("Para fazer o cadastro digite:")
+            if escolhaCadastro == 1:
+                user = fazer_cadastro_medico()
+            else:
+                user = fazer_cadastro_unidade()
         else:
             print("Obrigado. Volte logo.")
             return

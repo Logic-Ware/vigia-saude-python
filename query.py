@@ -29,7 +29,7 @@ def verificar_credenciais(email, senha):
 
     return user
 
-def cadastrar_usuario(nome, especialidade, n_crm, telefone, email, senha, unidade):
+def cadastrar_medico(nome, especialidade, n_crm, telefone, email, senha, unidade):
     # Conectar ao banco de dados
     conexao = oracledb.connect(user="rm99627", password="051298",
                                dsn="oracle.fiap.com.br:1521/orcl")
@@ -38,6 +38,22 @@ def cadastrar_usuario(nome, especialidade, n_crm, telefone, email, senha, unidad
     # Usando parâmetros vinculados
     cursor.execute("INSERT INTO T_VGS_MEDICO (nom_medico, des_especialidade, num_crm, des_telefone, des_email, des_senha, id_unidade) VALUES (:nome, :especialidade, :n_crm, :telefone, :email, :senha, :id_unidade)",
                 nome=nome, especialidade=especialidade, n_crm=n_crm, telefone=telefone, email=email, senha=senha, id_unidade=unidade)
+
+    conexao.commit()  # Commit para efetivar a inserção
+
+    # Fechar cursor e conexão
+    cursor.close()
+    conexao.close()
+
+def cadastrar_unidade(nome, telefone, email, senha, cep, logradouro, estado, cidade, num_cnes, tipo):
+    # Conectar ao banco de dados
+    conexao = oracledb.connect(user="rm99627", password="051298",
+                               dsn="oracle.fiap.com.br:1521/orcl")
+    cursor = conexao.cursor()
+
+    # Usando parâmetros vinculados
+    cursor.execute("INSERT INTO T_VGS_UNIDADE (nom_unidade, des_telefone_unidade, des_email_unidade, des_senha, des_cep_unidade, des_endereco_unidade, des_estado, des_cidade, num_cnes, id_tipo) VALUES (:nome, :telefone, :email, :senha, :cep, :logradouro, :estado, :cidade, :num_cnes, :tipo)",
+                nome=nome, telefone=telefone, email=email, senha=senha, cep=cep, logradouro=logradouro, estado=estado, cidade=cidade, num_cnes=num_cnes, tipo=tipo)
 
     conexao.commit()  # Commit para efetivar a inserção
 
@@ -78,7 +94,7 @@ def obter_unidade_usuario(user):
         JOIN T_VGS_UNIDADE ON T_VGS_MEDICO.id_unidade = T_VGS_UNIDADE.id_unidade
         WHERE T_VGS_MEDICO.id_medico = :id
     """
-    cursor.execute(consulta, id=user[7])
+    cursor.execute(consulta, id=user[0])
     unidade = cursor.fetchone()
 
     # Fechar cursor e conexão
@@ -103,3 +119,19 @@ def obter_unidades():
     conexao.close()
 
     return unidades
+
+# Função para obter os tipos de unidades logadas na sessão
+def obter_tipo_unidades():
+    # Conectar ao banco de dados
+    conexao = oracledb.connect(user="rm99627", password="051298",
+                           dsn="oracle.fiap.com.br:1521/orcl")
+    cursor = conexao.cursor()
+
+    cursor.execute("SELECT id_tipo, des_tipo_unidade FROM T_VGS_TIPO_UNIDADE")
+    tipo_unidades = cursor.fetchall()
+
+    # Fechar cursor e conexão
+    cursor.close()
+    conexao.close()
+
+    return tipo_unidades
