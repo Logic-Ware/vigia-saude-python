@@ -1,9 +1,9 @@
-from user import entrar_na_conta, fazer_cadastro, exibir_informacoes_usuario
+from user import entrar_na_conta, exibir_informacoes_usuario, fazer_cadastro
 
 def forcar_opcao(msg, lista_opcoes):
     resposta = input(msg)
     while not resposta in lista_opcoes:
-        resposta = input("Digite um valor válido por favor!")
+        resposta = input("Digite um valor válido por favor! ")
     return resposta
 
 def main():

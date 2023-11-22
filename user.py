@@ -1,4 +1,4 @@
-from query import verificar_credenciais
+from query import verificar_credenciais, obter_usuario, cadastrar_usuario, obter_unidades
 
 def entrar_na_conta():
     usuario_logado = None
@@ -12,27 +12,37 @@ def entrar_na_conta():
         else:
             usuario_logado = None
 
-'''def fazer_cadastro():
+def fazer_cadastro():
     print("Para fazer o cadastro digite:")
     nome = input("Nome: ")
+    especialidade = input("Especialidade: ")
+    n_crm = input("Nº CRM: ")
+    telefone = input("Telefone: ")
     email = input("E-mail: ")
     senha = input("Senha: ")
-    telefone = input("Telefone para contato: ")
-    cpf = input("CPF: ")
-    cep = input("Cep: ")
 
-    cadastrar_usuario_no_bd(nome, email, senha, telefone, cpf, cep)
-    usuario_cadastrado = obter_ultimo_usuario()
+    print("\nUnidades cadastradas em nosso sistema:\n")
+    lista_unidades = obter_unidades()
+    for unidade in lista_unidades:
+        print(f"{unidade[0]} - {unidade[1]}")
+    
+    unidade = int(input("\nSelecione a unidade em que está afiliado(a): "))
 
-    print(
-        f"{usuario_cadastrado[1]}, seu cadastro foi concluído com sucesso!\nVocê será redirecionado para a página inicial.\n.\n.\n.")
+    lista_id = [unidade[0] for unidade in lista_unidades]
+    while not unidade in lista_id:
+        unidade = int(input("Digite um valor válido por favor! "))
+
+    cadastrar_usuario(nome, especialidade, n_crm, telefone, email, senha, unidade)
+
+    print(f"{nome}, seu cadastro foi concluído com sucesso!\nVocê será redirecionado para a página inicial.\n.\n.\n.\n")
+
 
 def exibir_informacoes_usuario(user):
-    usuario = obter_usuario_no_bd(user)
+    usuario = obter_usuario(user)
     if usuario is not None:
         # Dados do usuário
         print(f"\n{usuario[1]}")
-        print(f"Email: {usuario[2]}")
+        print(f"Especialidade: {usuario[2]}")
+        print(f"Nº CRM: {usuario[3]}")
         print(f"Telefone: {usuario[4]}")
-        print(f"CPF: {usuario[5]}")
-        print(f"CEP: {usuario[6]}\n")'''
+        print(f"Email: {usuario[5]}\n")
