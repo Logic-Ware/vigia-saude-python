@@ -1,4 +1,4 @@
-from query import verificar_credenciais, obter_usuario, cadastrar_usuario, obter_unidades
+from query import verificar_credenciais, obter_usuario, cadastrar_usuario, obter_unidades, obter_unidade_usuario
 
 def entrar_na_conta():
     usuario_logado = None
@@ -39,10 +39,12 @@ def fazer_cadastro():
 
 def exibir_informacoes_usuario(user):
     usuario = obter_usuario(user)
+    unidade = obter_unidade_usuario(user)
     if usuario is not None:
         # Dados do usuário
         print(f"\n{usuario[1]}")
         print(f"Especialidade: {usuario[2]}")
         print(f"Nº CRM: {usuario[3]}")
         print(f"Telefone: {usuario[4]}")
-        print(f"Email: {usuario[5]}\n")
+        print(f"Email: {usuario[5]}")
+        print(f"Unidade afiliada: {unidade}\n")
