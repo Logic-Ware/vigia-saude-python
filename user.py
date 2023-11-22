@@ -21,7 +21,7 @@ def fazer_cadastro():
     email = input("E-mail: ")
     senha = input("Senha: ")
 
-    print("\nUnidades cadastradas em nosso sistema:\n")
+    print("\nUnidades cadastradas em nosso sistema:")
     lista_unidades = obter_unidades()
     for unidade in lista_unidades:
         print(f"{unidade[0]} - {unidade[1]}")

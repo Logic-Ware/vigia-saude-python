@@ -78,14 +78,14 @@ def obter_unidade_usuario(user):
         JOIN T_VGS_UNIDADE ON T_VGS_MEDICO.id_unidade = T_VGS_UNIDADE.id_unidade
         WHERE T_VGS_MEDICO.id_medico = :id
     """
-    cursor.execute(consulta, id=user[6])
+    cursor.execute(consulta, id=user[7])
     unidade = cursor.fetchone()
 
     # Fechar cursor e conexão
     cursor.close()
     conexao.close()
 
-    return unidade
+    return unidade[0]
 
 
 # Função para obter as unidades logadas na sessão
