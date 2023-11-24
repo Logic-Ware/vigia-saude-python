@@ -64,7 +64,7 @@ def exibir_informacoes_usuario(user):
     unidade = obter_unidade_usuario(user)
     if usuario is not None:
         # Dados do usuário
-        print(f"\n{usuario[1]}")
+        print(f"\nOlá, {usuario[1]}, seus dados abaixo: ")
         print(f"Especialidade: {usuario[2]}")
         print(f"Nº CRM: {usuario[3]}")
         print(f"Telefone: {usuario[4]}")

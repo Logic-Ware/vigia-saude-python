@@ -18,7 +18,7 @@ def verificar_credenciais(email, senha):
         user = cursor.fetchone()
 
         if user:
-            print(f"Bem-vindo, {user[1]}! Você entrou na sua conta.\n")
+            print(f"Bem-vindo, {user[1]}! Você entrou na sua conta.\n.\n.\n.\n")
         else:
             print("Falha ao entrar na conta. Verifique suas credenciais e tente novamente.")
 
@@ -176,10 +176,10 @@ def alerta_pandemia(cod_cid_doenca, des_estado_diagnostico):
     
     # Consultar a quantidade de casos associado ao cid e ao estado da tabela 'T_VGS_CASOS'
     consulta = '''
-            SELECT COUNT(*) FROM T_VGS_CASOS
-            WHERE id_doenca IN (SELECT id_doenca FROM T_VGS_DOENCA WHERE cod_cid_doenca = :cod)
-            AND des_estado_diagnostico = :estado
-        '''
+        SELECT COUNT(*) FROM T_VGS_CASOS
+        WHERE id_doenca IN (SELECT id_doenca FROM T_VGS_DOENCA WHERE cod_cid_doenca = :cod)
+        AND des_estado_diagnostico = :estado
+    '''
     cursor.execute(consulta, cod=cod_cid_doenca, estado=des_estado_diagnostico)
     contador_casos = cursor.fetchone()[0]
 
@@ -223,3 +223,26 @@ def obter_ultimo_caso():
     conexao.close()
 
     return ultimo_caso
+
+def casos_estados(estado):        
+    # Conectar ao banco de dados
+    conexao = oracledb.connect(user="rm99627", password="051298",
+                           dsn="oracle.fiap.com.br:1521/orcl")
+    cursor = conexao.cursor()
+
+    # Consultar o código cid pelo id doença da tabela 'T_VGS_DOENCA'
+    consulta = '''SELECT T_VGS_DOENCA.NOM_DOENCA, COUNT(*) AS NUM_CASOS
+        FROM RM99627.T_VGS_CASOS
+        JOIN RM99627.T_VGS_DOENCA ON T_VGS_CASOS.ID_DOENCA = T_VGS_DOENCA.ID_DOENCA
+        WHERE T_VGS_CASOS.DES_ESTADO_DIAGNOSTICO = :estado
+        GROUP BY T_VGS_DOENCA.NOM_DOENCA
+        ORDER BY NUM_CASOS DESC
+    '''
+    cursor.execute(consulta, estado=estado)
+    casos_estado = cursor.fetchall()
+
+    # Fechar cursor e conexão
+    cursor.close()
+    conexao.close()
+
+    return casos_estado

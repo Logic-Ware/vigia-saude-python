@@ -1,4 +1,4 @@
-from query import obter_usuario, cadastrar_caso, obter_doencas, alerta_pandemia, obter_ultimo_caso, obter_cid_nome
+from query import obter_usuario, cadastrar_caso, obter_doencas, alerta_pandemia, obter_ultimo_caso, obter_cid_nome, casos_estados
 from funcoes import forcar_opcao, estados, data_valida
 
 def cadastro_caso(user):
@@ -27,7 +27,7 @@ def cadastro_caso(user):
     cadastrar_caso(dat_nasc, des_genero, dat_diagnostico, estado_diagnostico, doenca)
     
     nome_usuario = obter_usuario(user)
-    print(f"{nome_usuario[1]}, o caso foi cadastrado em nosso sistemas com sucesso!\nVocê será redirecionado para a página inicial.\n.\n.\n.\n")
+    print(f"{nome_usuario[1]}, o caso foi cadastrado em nosso sistema com sucesso!\nVocê será redirecionado para a página inicial.\n.\n.\n.\n")
 
 def notificar_pandemia():
     ultimo_caso = obter_ultimo_caso()
@@ -40,3 +40,21 @@ def notificar_pandemia():
 
     if alerta_pandemia(cod_cid, estado_diagnosticado):
         print(f"ALERTA: Possível surto de {nom_doenca} em {estado_diagnosticado}! Notifique as autoridades de saúde.")
+
+def casos_crescentes():
+    estado = estados("Digite o seu estado, para calcularmos os casos registrados: ")
+    casos_por_estado = casos_estados(estado)
+
+    print(f"\n{'Doença':<20}{'Casos em ' + estado:>10}")
+    for caso in casos_por_estado:
+        print(f"{caso[0]:<20}{caso[1]:<10}")
+
+    # Foi utilizado paramêtros pequenos para testar
+    if caso[1] > 5:
+        print(f"ALERTA: Possível surto de {caso[0]} em {estado}! Notifique as autoridades de saúde.") 
+    elif caso[1] > 2 and caso[1] < 5: 
+        print(f"CUIDADO: A doença {caso[0]} está se espalhando em: {estado}! Fique de olho nos casos.") 
+    else:
+        print(f"Nenhuma possível pandemia em seu estado!")
+
+    print("\n.\n.\n.\n")
