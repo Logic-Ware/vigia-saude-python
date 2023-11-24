@@ -1,4 +1,5 @@
-from user import entrar_na_conta, exibir_informacoes_usuario, cadastro_medico, cadastro_unidade, cadastro_caso
+from user import entrar_na_conta, exibir_informacoes_usuario, cadastro_medico, cadastro_unidade
+from doenca import cadastro_caso, notificar_pandemia
 from funcoes import forcar_opcao
 
 def main():
@@ -39,6 +40,7 @@ def main():
 
     # Exibição do menu de funcionalidades
     while True:
+        notificar_pandemia()
         escolhaMenu = int(
             forcar_opcao(
                 "Este é nosso menu de funcionalidades:"

@@ -1,5 +1,5 @@
-from query import verificar_credenciais, obter_usuario, cadastrar_medico, cadastrar_unidade, cadastrar_caso, obter_unidades, obter_tipo_unidades, obter_unidade_usuario, obter_doencas
-from funcoes import forcar_opcao, estados, data_valida
+from query import verificar_credenciais, obter_usuario, cadastrar_medico, cadastrar_unidade, obter_unidades, obter_tipo_unidades, obter_unidade_usuario
+from funcoes import forcar_opcao
 
 def entrar_na_conta():
     usuario_logado = None
@@ -58,34 +58,6 @@ def cadastro_unidade():
     cadastrar_unidade(nome, telefone, email, senha, cep, logradouro, estado, cidade, num_cnes, tipo)
 
     print(f"{nome}, seu cadastro foi concluído com sucesso!\nVocê será redirecionado para a página inicial.\n.\n.\n.\n")
-
-def cadastro_caso(user):
-    dat_nasc = data_valida("Data de nascimento do paciente (YYYY-MM-DD): ")
-    des_genero = int(forcar_opcao("Gênero do paciente:"
-            "\n1 - Feminino"
-            "\n2 - Masculino\n", ["1", "2"]))
-
-    if des_genero == 1:
-        des_genero = "Feminino"
-    else:
-        des_genero = "Masculino"
-
-    dat_diagnostico = data_valida("Data do diagnóstico (YYYY-MM-DD): ")
-    estado_diagnostico = estados("Estado de origem do diagnóstico: ")
-
-    # Retornando listas das doenças pelo banco, para o usuário escolher
-    print("\nQual foi a doença diagnosticada? ")
-    lista_doencas = obter_doencas()
-    for doenca in lista_doencas:
-        print(f"{doenca[0]} - {doenca[1]}")
-    lista_id = [doenca[0] for doenca in lista_doencas]
-    
-    doenca = int(forcar_opcao("Selecione a doença: ", list(map(str, lista_id))))
-
-    cadastrar_caso(dat_nasc, des_genero, dat_diagnostico, estado_diagnostico, doenca)
-    
-    nome_usuario = obter_usuario(user)
-    print(f"{nome_usuario[1]}, o caso foi cadastrado em nosso sistemas com sucesso!\nVocê será redirecionado para a página inicial.\n.\n.\n.\n")
 
 def exibir_informacoes_usuario(user):
     usuario = obter_usuario(user)
