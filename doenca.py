@@ -45,16 +45,27 @@ def casos_crescentes():
     estado = estados("Digite o seu estado, para calcularmos os casos registrados: ")
     casos_por_estado = casos_estados(estado)
 
+    baixo_nivel = set()
+    medio_nivel = set()
+    alto_nivel = set()
     print(f"\n{'Doença':<20}{'Casos em ' + estado:>10}")
     for caso in casos_por_estado:
         print(f"{caso[0]:<20}{caso[1]:<10}")
 
-    # Foi utilizado paramêtros pequenos para testar
-    if caso[1] > 5:
-        print(f"ALERTA: Possível surto de {caso[0]} em {estado}! Notifique as autoridades de saúde.") 
-    elif caso[1] > 2 and caso[1] < 5: 
-        print(f"CUIDADO: A doença {caso[0]} está se espalhando em: {estado}! Fique de olho nos casos.") 
-    else:
-        print(f"Nenhuma possível pandemia em seu estado!")
+        # Foi utilizado paramêtros pequenos para testar
+        if caso[1] < 3:
+            baixo_nivel.add(caso[0])
+        elif caso[1] < 5:
+            medio_nivel.add(caso[0])
+        elif caso[1] > 5:
+            alto_nivel.add(caso[0])
 
-    print("\n.\n.\n.\n")
+    # Lógica para a notificação de doenças não se repetir
+    if len(baixo_nivel) == len(casos_por_estado):
+        print(f"Nenhuma possível epidemia em seu estado!")
+    elif len(medio_nivel) > 0 and len(alto_nivel) == 0:
+        print(f"CUIDADO: A doença {', '.join(medio_nivel)} está se espalhando em: {estado}! Fique de olho nos casos.")
+    elif len(alto_nivel) > 0: 
+        print(f"ALERTA: Possível surto de {', '.join(alto_nivel)} em {estado}! Notifique as autoridades de saúde.")
+
+    print(".\n.\n.\n")
