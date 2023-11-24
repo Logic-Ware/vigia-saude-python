@@ -61,6 +61,22 @@ def cadastrar_unidade(nome, telefone, email, senha, cep, logradouro, estado, cid
     cursor.close()
     conexao.close()
 
+def cadastrar_caso(dat_nasc, des_genero, dat_diagnostico, estado_diagnostico, doenca):
+    # Conectar ao banco de dados
+    conexao = oracledb.connect(user="rm99627", password="051298",
+                               dsn="oracle.fiap.com.br:1521/orcl")
+    cursor = conexao.cursor()
+
+    # Usando parâmetros vinculados
+    cursor.execute("INSERT INTO T_VGS_CASOS (dat_nasc_paciente, des_genero_paciente, dat_diagnostico, des_estado_diagnostico, id_doenca) VALUES (:dat_nasc, :des_genero, :dat_diagnostico, :estado_diagnostico, :doenca)",
+                dat_nasc=dat_nasc, des_genero=des_genero, dat_diagnostico=dat_diagnostico, estado_diagnostico=estado_diagnostico, doenca=doenca)
+
+    conexao.commit()  # Commit para efetivar a inserção
+
+    # Fechar cursor e conexão
+    cursor.close()
+    conexao.close()
+
 # Função para obter informações do usuário logado na sessão
 def obter_usuario(user):
     # Conectar ao banco de dados
@@ -135,3 +151,19 @@ def obter_tipo_unidades():
     conexao.close()
 
     return tipo_unidades
+
+# Função para obter as doencas logadas na sessão
+def obter_doencas():
+    # Conectar ao banco de dados
+    conexao = oracledb.connect(user="rm99627", password="051298",
+                           dsn="oracle.fiap.com.br:1521/orcl")
+    cursor = conexao.cursor()
+
+    cursor.execute("SELECT id_doenca, nom_doenca FROM T_VGS_DOENCA")
+    doencas = cursor.fetchall()
+
+    # Fechar cursor e conexão
+    cursor.close()
+    conexao.close()
+
+    return doencas

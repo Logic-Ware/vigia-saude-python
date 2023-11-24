@@ -1,10 +1,5 @@
-from user import entrar_na_conta, exibir_informacoes_usuario, fazer_cadastro_medico, fazer_cadastro_unidade
-
-def forcar_opcao(msg, lista_opcoes):
-    resposta = input(msg)
-    while not resposta in lista_opcoes:
-        resposta = input("Digite um valor válido por favor! ")
-    return resposta
+from user import entrar_na_conta, exibir_informacoes_usuario, cadastro_medico, cadastro_unidade, cadastro_caso
+from funcoes import forcar_opcao
 
 def main():
     user = None
@@ -35,9 +30,9 @@ def main():
 
             print("Para fazer o cadastro digite:")
             if escolhaCadastro == 1:
-                user = fazer_cadastro_medico()
+                user = cadastro_medico()
             else:
-                user = fazer_cadastro_unidade()
+                user = cadastro_unidade()
         else:
             print("Obrigado. Volte logo.")
             return
@@ -47,14 +42,17 @@ def main():
         escolhaMenu = int(
             forcar_opcao(
                 "Este é nosso menu de funcionalidades:"
-                "\n1 - Visualizar Dados de Usuário"
-                "\n2 - Sair"
+                "\n1 - Registrar Novo Caso"
+                "\n2 - Visualizar Dados de Usuário"
+                "\n3 - Sair"
                 "\nQual delas deseja utilizar? ",
-                ["1", "2"],
+                ["1", "2", "3"]
             )
         )
 
         if escolhaMenu == 1:
+            cadastro_caso(user)
+        elif escolhaMenu == 2:
             exibir_informacoes_usuario(user)
         else:
             print("Sessão encerrada!")
