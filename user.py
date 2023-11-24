@@ -1,4 +1,5 @@
-from query import verificar_credenciais, obter_usuario, cadastrar_medico, cadastrar_unidade, obter_unidades, obter_tipo_unidades, obter_unidade_usuario
+import json
+from query_user import verificar_credenciais, obter_usuario, cadastrar_medico, cadastrar_unidade, obter_unidades, obter_tipo_unidades, obter_unidade_usuario, obter_tipo_usuario
 from funcoes import forcar_opcao
 
 def entrar_na_conta():
@@ -69,4 +70,72 @@ def exibir_informacoes_usuario(user):
         print(f"Nº CRM: {usuario[3]}")
         print(f"Telefone: {usuario[4]}")
         print(f"Email: {usuario[5]}")
-        print(f"Unidade afiliada: {unidade}\n")
+        print(f"Unidade Afiliada: {unidade[1]}")
+    
+    exportar_json = forcar_opcao("\nDeseja exportar os dados para um arquivo JSON? (S/N)", ["S","N"])
+
+    if exportar_json == 'S':
+        # Criar um dicionário com os dados
+        dados_para_exportar = {'Nome': usuario[1], 
+            'Especialidade': usuario[2], 
+            'Nº CRM:': usuario[3], 
+            'Telefone' : usuario[4], 
+            'Email': usuario[5], 
+            'Unidade Afiliada': unidade[1]
+        }
+        
+        # Nome do arquivo
+        nome_arquivo = 'usuario.json'
+        with open(nome_arquivo, 'w') as arquivo_json:
+            json.dump(dados_para_exportar, arquivo_json)
+
+        print(f"\nOs dados foram exportados para '{nome_arquivo}'.")
+    else:
+        print("Consulta não exportada.")
+    
+    print(".\n.\n.\n")
+
+def exibir_informacoes_unidade(user):
+    usuario = obter_usuario(user)
+    unidade = obter_unidade_usuario(user)
+    tipo_unidade = obter_tipo_usuario(unidade)
+    print(tipo_unidade)
+    if usuario is not None:
+        # Dados do usuário
+        print(f"\nOlá, {usuario[1]}, os dados da sua unidade abaixo: ")
+        print(f"Nome Unidade: {unidade[1]}")
+        print(f"Telefone: {unidade[2]}")
+        print(f"Email: {unidade[3]}")
+        print(f"Cep: {unidade[5]}")
+        print(f"Logradouro: {unidade[6]}")
+        print(f"Estado: {unidade[7]}")
+        print(f"Cidade: {unidade[8]}")    
+        print(f"Nº CNES: {unidade[9]}")
+        print(f"Tipo de Unidade: {tipo_unidade[1]}")
+    
+    exportar_json = forcar_opcao("\nDeseja exportar os dados para um arquivo JSON? (S/N)", ["S","N"])
+
+    if exportar_json == 'S':
+        # Criar um dicionário com os dados
+        dados_para_exportar = {'Medico': usuario[1], 
+            'Nome Unidade': unidade[1], 
+            'Telefone' : unidade[2],
+            'Email': unidade[3], 
+            'CEP': unidade[5],
+            'Logradouro': unidade[6],
+            'Estado': unidade[7], 
+            'Cidade': unidade[8], 
+            'Nº CNES:': unidade[9], 
+            'Tipo de Unidade': tipo_unidade[1]
+        }
+        
+        # Nome do arquivo
+        nome_arquivo = 'unidade_medico.json'
+        with open(nome_arquivo, 'w') as arquivo_json:
+            json.dump(dados_para_exportar, arquivo_json)
+
+        print(f"\nOs dados foram exportados para '{nome_arquivo}'.")
+    else:
+        print("Consulta não exportada.")
+
+    print(".\n.\n.\n")

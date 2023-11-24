@@ -1,4 +1,4 @@
-from user import entrar_na_conta, exibir_informacoes_usuario, cadastro_medico, cadastro_unidade
+from user import entrar_na_conta, cadastro_medico, cadastro_unidade, exibir_informacoes_usuario, exibir_informacoes_unidade
 from doenca import cadastro_caso, notificar_pandemia, casos_crescentes
 from funcoes import forcar_opcao
 
@@ -45,11 +45,12 @@ def main():
             forcar_opcao(
                 "Este é nosso menu de funcionalidades:"
                 "\n1 - Registrar Novo Caso"
-                "\n2 - Visualizar Casos Crescentes Em Seu Estado"
+                "\n2 - Visualizar Casos Em Seu Estado"
                 "\n3 - Visualizar Dados de Usuário"
-                "\n4 - Sair"
+                "\n4 - Visualizar Dados da Unidade"
+                "\n5 - Sair"
                 "\nQual delas deseja utilizar? ",
-                ["1", "2", "3", "4"]
+                ["1", "2", "3", "4", "5"]
             )
         )
 
@@ -59,6 +60,8 @@ def main():
             casos_crescentes()
         elif escolhaMenu == 3:
             exibir_informacoes_usuario(user)
+        elif escolhaMenu == 4:
+            exibir_informacoes_unidade(user)
         else:
             print("Sessão encerrada!")
             return

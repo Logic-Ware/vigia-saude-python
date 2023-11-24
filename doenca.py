@@ -1,4 +1,6 @@
-from query import obter_usuario, cadastrar_caso, obter_doencas, alerta_pandemia, obter_ultimo_caso, obter_cid_nome, casos_estados
+import json
+from query_user import obter_usuario
+from query_doenca import cadastrar_caso, obter_doencas, alerta_pandemia, obter_ultimo_caso, obter_cid_nome, casos_estados
 from funcoes import forcar_opcao, estados, data_valida
 
 def cadastro_caso(user):
@@ -57,7 +59,7 @@ def casos_crescentes():
             baixo_nivel.add(caso[0])
         elif caso[1] < 5:
             medio_nivel.add(caso[0])
-        elif caso[1] > 5:
+        elif caso[1] >= 5:
             alto_nivel.add(caso[0])
 
     # Lógica para a notificação de doenças não se repetir
@@ -68,4 +70,21 @@ def casos_crescentes():
     elif len(alto_nivel) > 0: 
         print(f"ALERTA: Possível surto de {', '.join(alto_nivel)} em {estado}! Notifique as autoridades de saúde.")
 
+    exportar_json = forcar_opcao("\nDeseja exportar os dados para um arquivo JSON? (S/N)", ["S","N"])
+
+    if exportar_json == 'S':
+        # Criar um dicionário com os dados
+        dados_para_exportar = {'Estado': estado, 'Casos': []}
+        for caso in casos_por_estado:
+            dados_para_exportar['Casos'].append({'Doenca': caso[0], 'Casos': caso[1]})
+        
+        # Nome do arquivo
+        nome_arquivo = 'casos_estados.json'
+        with open(nome_arquivo, 'w') as arquivo_json:
+            json.dump(dados_para_exportar, arquivo_json)
+
+        print(f"\nOs dados foram exportados para '{nome_arquivo}'.")
+    else:
+        print("Consulta não exportada.")
+    
     print(".\n.\n.\n")

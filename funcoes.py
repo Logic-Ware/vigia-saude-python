@@ -25,3 +25,5 @@ def data_valida(msg):
             return data
         except ValueError:
             print("Formato de data inválido. Certifique-se de seguir o formato YYYY-MM-DD.")
+
+    
